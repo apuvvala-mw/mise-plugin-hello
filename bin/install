@@ -1,15 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# mise passes version via MISE_PLUGIN_ARGS, not argv
-INPUT="${1:-${MISE_PLUGIN_ARGS:-}}"
+# Accept version via positional parameter or fallback to MISE_PLUGIN_ARGS env var
+if [[ $# -ge 1 && -n "$1" ]]; then
+  INPUT="$1"
+else
+  INPUT="${MISE_PLUGIN_ARGS:-}"
+fi
 
 if [[ -z "$INPUT" ]]; then
   echo "Usage: $0 <plugin@version> (e.g., matlab@R2024a)"
   exit 1
 fi
 
-# Extract version (after '@')
+# Extract version from input (after '@')
 VERSION="${INPUT#*@}"
 
 if [[ -z "$VERSION" ]]; then
