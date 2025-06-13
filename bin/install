@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <version> (e.g., R2024a)"
+VERSION="${MISI_VERSION:-}"
+
+if [[ -z "$VERSION" ]]; then
+  echo "Usage: MISI_VERSION environment variable must be set (e.g., R2024a)"
   exit 1
 fi
 
-VERSION="$1"
 INSTALL_DIR="${INSTALL_PATH:-"$HOME/.local/share/mise/installs/matlab/$VERSION"}"
 MPM_PATH="${HOME}/.local/bin/mpm"
 
