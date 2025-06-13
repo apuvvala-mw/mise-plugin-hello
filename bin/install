@@ -1,32 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# mise calls: ./bin/install matlab@R2024a
-# So first arg is "matlab@R2024a"
 if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <plugin@version> (e.g., matlab@R2024a)"
+  echo "Usage: $0 <version> (e.g., R2024a)"
   exit 1
 fi
 
-INPUT="$1"
-
-echo "DEBUG ARGS RECEIVED: $@"
-echo "DEBUG ARGS COUNT: $#"
-
-
-# Extract version from input (format: plugin@version)
-if [[ "$INPUT" =~ @(.+) ]]; then
-  VERSION="${BASH_REMATCH[1]}"
-else
-  echo "Error: Expected argument in the form plugin@version, got '$INPUT'"
-  exit 1
-fi
+VERSION="$1"
 
 INSTALL_DIR="${INSTALL_PATH:-"$HOME/.local/share/mise/installs/matlab/$VERSION"}"
 MPM_PATH="${HOME}/.local/bin/mpm"
 
 echo "Installing MATLAB $VERSION to $INSTALL_DIR"
-
 # Step 1: Install MPM if missing
 if ! command -v mpm &> /dev/null; then
   echo "MPM not found, downloading..."
