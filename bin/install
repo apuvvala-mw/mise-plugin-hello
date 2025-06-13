@@ -10,6 +10,10 @@ fi
 
 INPUT="$1"
 
+echo "DEBUG ARGS RECEIVED: $@"
+echo "DEBUG ARGS COUNT: $#"
+
+
 # Extract version from input (format: plugin@version)
 if [[ "$INPUT" =~ @(.+) ]]; then
   VERSION="${BASH_REMATCH[1]}"
