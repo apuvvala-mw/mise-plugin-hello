@@ -2,3 +2,5 @@
 name = "matlab"
 description = "Install MATLAB for Linux"
 type = "script"
+
+versions = ["R2023a", "R2024a"]
