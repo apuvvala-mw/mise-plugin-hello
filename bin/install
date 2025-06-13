@@ -44,7 +44,7 @@ if ! command -v mpm &> /dev/null; then
 fi
 
 # Step 2: Install MATLAB using MPM
-mpm install --release="$VERSION" --destination="$INSTALL_DIR" --products MATLAB
+mpm install --release="matlab@$VERSION" --destination="$INSTALL_DIR" --products MATLAB
 
 # Step 3: Create executable shim for matlab
 
