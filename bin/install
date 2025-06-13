@@ -1,12 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# mise calls: ./bin/install matlab@R2024a
+# So first arg is "matlab@R2024a"
 if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <version> (e.g., R2024a)"
+  echo "Usage: $0 <plugin@version> (e.g., matlab@R2024a)"
   exit 1
 fi
 
-VERSION="$1"
+INPUT="$1"
+
+# Extract version from input (format: plugin@version)
+if [[ "$INPUT" =~ @(.+) ]]; then
+  VERSION="${BASH_REMATCH[1]}"
+else
+  echo "Error: Expected argument in the form plugin@version, got '$INPUT'"
+  exit 1
+fi
+
 INSTALL_DIR="${INSTALL_PATH:-"$HOME/.local/share/mise/installs/matlab/$VERSION"}"
 MPM_PATH="${HOME}/.local/bin/mpm"
 
@@ -38,9 +49,6 @@ mpm install --release="$VERSION" --destination="$INSTALL_DIR" --products MATLAB
 # Step 3: Create executable shim for matlab
 
 mkdir -p "$INSTALL_DIR/bin"
-
-# The actual MATLAB executable installed by mpm is named "matlab" inside $INSTALL_DIR/bin
-# To avoid recursion, rename it and create a shim in its place
 
 if [[ -f "$INSTALL_DIR/bin/matlab" && ! -f "$INSTALL_DIR/bin/matlab.real" ]]; then
   mv "$INSTALL_DIR/bin/matlab" "$INSTALL_DIR/bin/matlab.real"
