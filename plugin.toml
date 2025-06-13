@@ -1,7 +1,7 @@
 [plugin]
 name = "matlab"
 description = "Install MATLAB for Linux"
-type = "script"
+type = "legacy"
 
 versions = ["R2023a", "R2023b", "R2024a"]
 
