@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Expect: ./install matlab@R2024a
-if [[ $# -lt 1 ]]; then
+# mise passes version via MISE_PLUGIN_ARGS, not argv
+INPUT="${MISE_PLUGIN_ARGS:-}"
+
+if [[ -z "$INPUT" ]]; then
   echo "Usage: $0 <plugin@version> (e.g., matlab@R2024a)"
   exit 1
 fi
 
-INPUT="$1"
-
-# Extract version after '@' (e.g., from "matlab@R2024a")
+# Extract version (after '@')
 VERSION="${INPUT#*@}"
 
 if [[ -z "$VERSION" ]]; then
@@ -45,7 +45,7 @@ fi
 # Step 2: Install MATLAB using MPM
 mpm install --release="$VERSION" --destination="$INSTALL_DIR" --products MATLAB
 
-# Step 3: Create executable shim
+# Step 3: Create shim
 mkdir -p "$INSTALL_DIR/bin"
 
 if [[ -f "$INSTALL_DIR/bin/matlab" && ! -f "$INSTALL_DIR/bin/matlab.real" ]]; then
