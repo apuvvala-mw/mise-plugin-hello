@@ -2,19 +2,45 @@
 set -euo pipefail
 
 if [[ $# -lt 1 ]]; then
-  echo "Usage: $0 <version>"
+  echo "Usage: $0 <version> (e.g., R2024a)"
   exit 1
 fi
 
 VERSION="$1"
-INSTALL_DIR="${INSTALL_PATH:-"$HOME/.local/share/mise/installs/hello/$VERSION"}"
+INSTALL_DIR="${INSTALL_PATH:-"$HOME/.local/share/mise/installs/matlab/$VERSION"}"
+MPM_PATH="${HOME}/.local/bin/mpm"
 
-echo "Installing hello version $VERSION to $INSTALL_DIR"
+echo "Installing MATLAB $VERSION to $INSTALL_DIR"
 
+# Step 1: Install MPM if missing
+if ! command -v mpm &> /dev/null; then
+  echo "MPM not found, downloading..."
+
+  mkdir -p "$(dirname "$MPM_PATH")"
+  wget -O "$MPM_PATH" https://www.mathworks.com/mpm/glnxa64/mpm
+  chmod +x "$MPM_PATH"
+
+  export PATH="$(dirname "$MPM_PATH"):$PATH"
+  echo "MPM installed at $MPM_PATH"
+else
+  echo "MPM already installed."
+fi
+
+# Verify mpm is now available
+if ! command -v mpm &> /dev/null; then
+  echo "Error: mpm command not found after installation."
+  exit 1
+fi
+
+# Step 2: Install MATLAB using MPM
+mpm install --release="$VERSION" --destination="$INSTALL_DIR" --products MATLAB
+
+# Step 3: Create executable shim for matlab
 mkdir -p "$INSTALL_DIR/bin"
-cat <<EOF > "$INSTALL_DIR/bin/hello"
+cat <<EOF > "$INSTALL_DIR/bin/matlab"
 #!/usr/bin/env bash
-echo "Hello from version $VERSION"
+exec "$INSTALL_DIR/bin/matlab" "\$@"
 EOF
-chmod +x "$INSTALL_DIR/bin/hello"
+chmod +x "$INSTALL_DIR/bin/matlab"
 
+echo "MATLAB $VERSION installed successfully."
