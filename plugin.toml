@@ -1,3 +1,4 @@
 [plugin]
 name = "hello"
 description = "My custom hello tool for Linux"
+type = "script"
