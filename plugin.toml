@@ -4,3 +4,7 @@ description = "Install MATLAB for Linux"
 type = "script"
 
 versions = ["R2023a", "R2023b", "R2024a"]
+
+[bin]
+install = "bin/install"
+list-all = "bin/list-all"
