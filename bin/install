@@ -8,7 +8,3 @@ echo "Installing hello tool version $version to $install_path"
 
 # Example: Download and extract the tool (update with your URL and method)
 # curl -L "https://example.com/mytool-$version-linux.tar.gz" | tar -xz -C "$install_path" --strip-components=1
-<<<<<<< HEAD
-=======
-
->>>>>>> ab8842f (initial commit)

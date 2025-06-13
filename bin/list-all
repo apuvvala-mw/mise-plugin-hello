@@ -4,7 +4,3 @@ set -euo pipefail
 # Example: Get available versions from a GitHub releases API
 1.0
 1.1
-<<<<<<< HEAD
-=======
-
->>>>>>> ab8842f (initial commit)
