@@ -1,4 +1,4 @@
 [plugin]
-name = "hello"
-description = "My custom hello tool for Linux"
+name = "matlab"
+description = "Install MATLAB for Linux"
 type = "script"
